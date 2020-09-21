@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Book;
+use App\Author;
 
-class BookController extends Controller
+class AuthorController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +15,9 @@ class BookController extends Controller
     public function index()
     {
         //
-        $book = Book::get();
-        if($book && $book->count() > 0){
-            return response(["message" => "Show data success.", "data" => $book], 200);
+        $author = Author::get();
+        if($author && $author->count() > 0){
+            return response(["message" => "Show data success.", "data" => $author], 200);
         }else{
             return response(["message" => "Data not found.", "data" => null], 404);
         }
@@ -42,15 +42,16 @@ class BookController extends Controller
     public function store(Request $request)
     {
         //
-        $book = Book::create([
-            "title" => $request->input('title'),
-            "description" => $request->input('description'),
-            "author" => $request->input('author'),
-            "publisher" => $request->input('publisher'),
-            "date_of_issue" => $request->input('date_of_issue')
+        $author = Author::create([
+            "name" => $request->input('name'),
+            "date_of_birth" => $request->input('date_of_birth'),
+            "place_of_birth" => $request->input('place_of_birth'),
+            "gender" => $request->input('gender'),
+            "email" => $request->input('email'),
+            "hp" => $request->input('hp')
         ]);
 
-        return response(["message" => "Create data success.", "data" => $book], 201);
+        return response(["message" => "Create data success.", "data" => $author], 201);
     }
 
     /**
@@ -62,9 +63,9 @@ class BookController extends Controller
     public function show($id)
     {
         //
-        $book = Book::find($id);
-        if($book && $book->count() > 0){
-            return response(["message" => "Show data success.", "data" => $book], 200);
+        $author = Author::find($id);
+        if($author && $author->count() > 0){
+            return response(["message" => "Show data success.", "data" => $author], 200);
         }else{
             return response(["message" => "Data not found.", "data" => null], 404);
         }
@@ -90,17 +91,19 @@ class BookController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $book = Book::find($id);
-        if($book){
-            $book->title = $request->title;
-            $book->description = $request->description;
-            $book->author = $request->author;
-            $book->publisher = $request->publisher;
-            $book->date_of_issue = $request->date_of_issue;
+        //
+        $author = Author::find($id);
+        if($author){
+            $author->name = $request->name;
+            $author->date_of_birth = $request->date_of_birth;
+            $author->place_of_birth = $request->place_of_birth;
+            $author->gender = $request->gender;
+            $author->email = $request->email;
+            $author->hp = $request->hp;
 
-            $book->save();
+            $author->save();
 
-            return response(["message" => "Update data success.", "data" => $book], 200);
+            return response(["message" => "Update data success.", "data" => $author], 200);
         }else{
             return response(["error" => "Update data failed."], 406);
         }
@@ -115,6 +118,6 @@ class BookController extends Controller
     public function destroy($id)
     {
         //
-        return Book::destroy($id);
+        return Author::destroy($id);
     }
 }
